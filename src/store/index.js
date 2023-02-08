@@ -1,4 +1,5 @@
 import { createStore } from 'vuex';
+import shop from '@/api/shop';
 
 export default createStore({
     state: { // = data
@@ -12,9 +13,24 @@ export default createStore({
     },
 
     actions: { // = methods
-        fetchProducts() {
-            // run setProducts mutation
-        }
+        fetchProducts({commit}) {
+            return new Promise((resolve) => {
+                // run setProducts mutation
+                shop.getProducts(products => {
+                    commit('setProducts', products)
+                    resolve()
+                })
+            })
+            
+        },
+
+        /*addToCart(context, product) {
+            if(product.inventory > 0 ){
+                context.commit('pushProductToCart', product)
+            }else{
+                // show out of stock message
+            }
+        }*/
     },
 
     mutations: {
