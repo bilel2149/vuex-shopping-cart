@@ -1,9 +1,6 @@
-import Vuex from 'vuex'
-import Vue from 'vue'
+import { createStore } from 'vuex';
 
-Vue.use(Vuex)
-
-new Vuex.Store({
+export default createStore({
     state: { // = data
         products: []
     },
@@ -16,13 +13,14 @@ new Vuex.Store({
 
     actions: { // = methods
         fetchProducts() {
-
+            // run setProducts mutation
         }
     },
 
     mutations: {
-        setProducts() {
+        setProducts(state, products) {
             // update products
+            state.products = products;
         }
     }
 })
