@@ -6,8 +6,8 @@ export default createStore({
     },
 
     getters: { // = computed prperties
-        productsCount() {
-
+        availableProducts(state) {
+            return state.products.filter(product => product.inventory > 0)
         }
     },
 
