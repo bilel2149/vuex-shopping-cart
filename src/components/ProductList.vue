@@ -5,7 +5,9 @@
             <img src="https://i.pinimg.com/originals/76/77/ed/7677edd5a44b10130b8824ca020ba60b.gif" width="150">
         </div>
         <ul v-else>
-            <li v-for="product in products" :key="product.id">{{product.title}} - {{product.price}}</li>
+            <li v-for="product in products" :key="product.id">{{product.title}} - {{product.price}} - {{product.inventory}}
+                <button @click="addProductToCart(product)">Add to cart</button>
+            </li>
         </ul>
     </div>
 </template>
@@ -27,6 +29,12 @@ export default{
         this.loading = true;
         this.$store.dispatch('fetchProducts')
         .then(() => this.loading = false)
+    },
+
+    methods: {
+        addProductToCart(product) {
+            this.$store.dispatch('addProductToCart', product);
+        }
     }
 }
 </script>
