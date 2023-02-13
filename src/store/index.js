@@ -1,5 +1,5 @@
 import { createStore } from 'vuex';
-import shop from '@/api/shop';
+import actions from './actions';
 
 export default createStore({
     state: { // = data
@@ -27,46 +27,16 @@ export default createStore({
 
         cartTotal(state, getters) {
             return getters.cartProducts.reduce((total, product) => total += product.price * product.quantity, 0)
-        }
-    },
-
-    actions: { // = methods
-        fetchProducts({commit}) {
-            return new Promise((resolve) => {
-                // run setProducts mutation
-                shop.getProducts(products => {
-                    commit('setProducts', products)
-                    resolve()
-                })
-            })
-            
         },
 
-        addProductToCart(context, product) {
-            if(product.inventory > 0 ){
-                const cartItem = context.state.cart.find(item => item.id === product.id)
-                if(!cartItem){
-                    context.commit('pushProductToCart', product.id)
-                }else{
-                    context.commit('incrementItemQuentity', cartItem)
-                }
-                context.commit('decrementproductInventory', product)
+        productIsInStock() {
+            return(product) => {
+                return product.inventory > 0
             }
-        },
-
-        checkout({state, commit}) {
-            shop.buyProducts(
-                state.cart,
-                () => {
-                    commit('emptyCart')
-                    commit('setCheckoutStatus', 'success')
-                },
-                () => {
-                    commit('setCheckoutStatus', 'fail')
-                }
-            )
         }
     },
+
+    actions,
 
     mutations: {
         setProducts(state, products) {
